@@ -182,7 +182,7 @@ const imgExt = [
 for(let i=0;i<12;i++){
 document.write(`
 <div class="col-6 col-md-3">
-    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+    <div class="flip-card" onclick="flipCard(this, ${i+1})">
         <div class="flip-inner">
             <div class="flip-front">
                 Reason #${i+1}
@@ -196,6 +196,45 @@ document.write(`
 </div>
 `);
 }
+
+
+let currentAudio = null;
+const audioCache = {};
+
+// preload audios
+for (let i = 1; i <= 12; i++) {
+    const audio = new Audio(`assets/flip/${i}.mp3`);
+    audio.preload = "auto";
+    audioCache[i] = audio;
+}
+
+function flipCard(card, index) {
+    // flip
+    card.classList.toggle('flipped');
+
+    // stop previous audio
+    if (currentAudio && currentAudio !== audioCache[index]) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+    }
+
+    const audio = audioCache[index];
+
+    // if same card clicked again → pause
+    if (!audio.paused) {
+        audio.pause();
+        audio.currentTime = 0;
+        return;
+    }
+
+    audio.currentTime = 0;
+    audio.play().catch(err => {
+        console.log("Audio blocked:", err);
+    });
+
+    currentAudio = audio;
+}
+
 </script>
 
 </div>

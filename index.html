@@ -349,6 +349,30 @@ padding: 20px;
 }
 
 
+/* NO button styled like YES but RED */
+.btn-no-red {
+  position: absolute;
+  background: linear-gradient(135deg, #dc3545, #ff6b6b);
+  color: #fff;
+  border-radius: 50px;
+  padding: 12px 30px;
+  font-size: 18px;
+  box-shadow: 0 10px 25px rgba(220,53,69,0.45);
+  animation: pulseRed 1.5s infinite;
+  transition: transform 0.2s;
+}
+
+.btn-no-red:hover {
+  transform: scale(1.1);
+}
+
+@keyframes pulseRed {
+  0% { box-shadow: 0 0 0 0 rgba(220,53,69,0.6); }
+  70% { box-shadow: 0 0 0 15px rgba(220,53,69,0); }
+  100% { box-shadow: 0 0 0 0 rgba(220,53,69,0); }
+}
+
+
 </style>
 
 </head>
@@ -378,6 +402,10 @@ padding: 20px;
 
 <audio id="bgmSong" loop>
   <source src="assets/RemoBgm.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="resultBgm" loop>
+  <source src="assets/dragonBgm.mp3" type="audio/mpeg">
 </audio>
 
 
@@ -423,14 +451,19 @@ padding: 20px;
 
   <!-- Screen 2 -->
   <div id="questionScreen" class="hidden glass_card">
-   <h4>HI UMA 💖 I LOVE YOU ❤️<br>நான் உன்னை காதலிக்கிறேன்…<br>நீயும் என்னை காதலிக்கிறாயா?</h4>
+  <h4 id="questionText">
+    HI UMA 💖 I LOVE YOU ❤️<br>
+   Will you marry me? 💍❤️🥰🌹✨
+  </h4>
 
     <h6>If you Feeling Shy Click No <h6>
 
 
     <div class="stage glass_card1">
       <button class="btn btn-yes px-4" onclick="yesClick()">YES 😊</button>
-      <button class="btn btn-danger btn-no px-3" id="noBtn">NO 😈</button>
+      <button class="btn btn-no-red px-4 ms-5" id="noBtn" onclick="activateNo()">
+  NO 😈
+</button>
     </div>
   </div>
 
@@ -537,7 +570,11 @@ Na unna love pantra 😍 I love you Uma 💘💖 ✨🥰
 
 <script>
 
+  let noActivated = false;
+  var resultBgm = document.getElementById("resultBgm");
+
   var bgm = document.getElementById("bgmSong");
+
 
 // When popupOne opens
 var popupOne = document.getElementById('popupOne');
@@ -571,10 +608,27 @@ function start() {
     modal.show();
   }, 1800);
 }
- 
-  function goToGifts() {
-    window.location.href = "gifts.html";
+
+
+function activateNo() {
+  if (!noActivated) {
+    noActivated = true;
+
+    // first reaction text
+    questionText.innerHTML = "😳 Hey… escape aga pakkuriya? 😏";
+
+    // 🔥 IMMEDIATE SHAKE / MOVE ON CLICK
+    moveNoButtonWild();
   }
+}
+ 
+ function goToGifts() {
+  // ⛔ STOP RESULT BGM
+  resultBgm.pause();
+  resultBgm.currentTime = 0;
+
+  window.location.href = "gifts.html";
+}
 
 function openPopupTwo() {
   bootstrap.Modal.getInstance(
@@ -596,29 +650,34 @@ function goToQuestion() {
 }
 
 
-  function yesClick() {
-    document.getElementById('questionScreen').classList.add('hidden');
-    const result = document.getElementById('resultScreen');
-    result.classList.remove('hidden');
-    result.classList.add('celebrate');
+function yesClick() {
+  document.getElementById('questionScreen').classList.add('hidden');
+  const result = document.getElementById('resultScreen');
+  result.classList.remove('hidden');
+  result.classList.add('celebrate');
 
-    setBodyBg('bg-resultScreen');
+  setBodyBg('bg-resultScreen');
 
-    // 🎉 CONFETTI BLAST
+  // 🎵 PLAY RESULT BGM
+  resultBgm.volume = 0.6;
+  resultBgm.currentTime = 0;
+  resultBgm.play();
+
+  // 🎉 CONFETTI
+  confetti({
+    particleCount: 150,
+    spread: 90,
+    origin: { y: 0.6 }
+  });
+
+  setTimeout(() => {
     confetti({
-      particleCount: 150,
-      spread: 90,
-      origin: { y: 0.6 }
+      particleCount: 120,
+      spread: 120,
+      origin: { y: 0.7 }
     });
-
-    setTimeout(() => {
-      confetti({
-        particleCount: 120,
-        spread: 120,
-        origin: { y: 0.7 }
-      });
-    }, 400);
-  }
+  }, 400);
+}
 
     const noBtn = document.getElementById('noBtn');
   const stage = document.querySelector('.stage');
@@ -662,9 +721,9 @@ stage.addEventListener('mousemove', (e) => {
 
   const distance = Math.hypot(mouseX - btnX, mouseY - btnY);
 
-  if (distance < escapeDistance) {
-    moveNoButtonWild();
-  }
+  if (noActivated && distance < escapeDistance) {
+  moveNoButtonWild();
+}
 });
 
 function setBodyBg(bgClass) {
