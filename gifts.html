@@ -53,7 +53,6 @@
       margin-bottom: 15px;
     }
 
-    /* Button Style */
     .gift-btn {
       margin-top: auto;
       padding: 10px 22px;
@@ -76,41 +75,77 @@
 
 <body>
 
-  <div class="container">
-    <div class="row g-4">
+<div class="container p-5">
+  <div class="row g-4">
 
-      <!-- Gift 1 -->
-      <div class="col-md-4 d-flex">
-        <div class="gift-card w-100 d-flex flex-column">
-          <img src="assets/gift1.gif" alt="Gift 1">
-          <div class="gift-title">🎁 Gift 1</div>
-          <p class="gift-text">A small surprise with lots of love 💖</p>
-          <button class="gift-btn">Open Gift 💝</button>
-        </div>
+    <!-- Gift 1 -->
+    <div class="col-md-4 d-flex">
+      <div class="gift-card w-100 d-flex flex-column">
+        <img src="assets/gift1.gif">
+        <div class="gift-title">🎁 Gift 1</div>
+        <p class="gift-text">A small surprise with lots of love 💖</p>
+        <button class="gift-btn" onclick="openGift(1)">Open Gift 💝</button>
       </div>
-
-      <!-- Gift 2 -->
-      <div class="col-md-4 d-flex">
-        <div class="gift-card w-100 d-flex flex-column">
-          <img src="assets/gift2.gif" alt="Gift 2">
-          <div class="gift-title">💝 Gift 2</div>
-          <p class="gift-text">Because you deserve something special ✨</p>
-          <button class="gift-btn">Open Gift 💖</button>
-        </div>
-      </div>
-
-      <!-- Gift 3 -->
-      <div class="col-md-4 d-flex">
-        <div class="gift-card w-100 d-flex flex-column">
-          <img src="assets/gift3.gif" alt="Gift 3">
-          <div class="gift-title">💖 Gift 3</div>
-          <p class="gift-text">A gift straight from my heart 🥰</p>
-          <button class="gift-btn">Open Gift 🎀</button>
-        </div>
-      </div>
-
     </div>
+
+    <!-- Gift 2 -->
+    <div class="col-md-4 d-flex">
+      <div class="gift-card w-100 d-flex flex-column">
+        <img src="assets/gift2.gif">
+        <div class="gift-title">💝 Gift 2</div>
+        <p class="gift-text">Because you deserve something special ✨</p>
+        <button class="gift-btn" onclick="openGift(2)">Open Gift 💖</button>
+      </div>
+    </div>
+
+    <!-- Gift 3 -->
+    <div class="col-md-4 d-flex">
+      <div class="gift-card w-100 d-flex flex-column">
+        <img src="assets/gift3.gif">
+        <div class="gift-title">💖 Gift 3</div>
+        <p class="gift-text">A gift straight from my heart 🥰</p>
+        <button class="gift-btn" onclick="openGift(3)">Open Gift 🎀</button>
+      </div>
+    </div>
+
+    <!-- Gift 4 -->
+    <div class="col-md-4 d-flex">
+      <div class="gift-card w-100 d-flex flex-column">
+        <img src="assets/gift4.gif">
+        <div class="gift-title">🎀 Gift 4</div>
+        <p class="gift-text">Another surprise just for you 💕</p>
+        <button class="gift-btn" onclick="openGift(4)">Open Gift 💘</button>
+      </div>
+    </div>
+
+    <!-- Gift 5 -->
+    <div class="col-md-4 d-flex">
+      <div class="gift-card w-100 d-flex flex-column">
+        <img src="assets/gift5.gif">
+        <div class="gift-title">💌 Gift 5</div>
+        <p class="gift-text">Wrapped with care and love 😘</p>
+        <button class="gift-btn" onclick="openGift(5)">Open Gift 💞</button>
+      </div>
+    </div>
+
+    <!-- Gift 6 -->
+    <div class="col-md-4 d-flex">
+      <div class="gift-card w-100 d-flex flex-column">
+        <img src="assets/gift6.gif">
+        <div class="gift-title">💖 Gift 6</div>
+        <p class="gift-text">Because one surprise is never enough 🥰</p>
+        <button class="gift-btn" onclick="openGift(6)">Open Gift 🎁</button>
+      </div>
+    </div>
+
   </div>
+</div>
+
+<script>
+  function openGift(num) {
+    window.location.href = `open_gift_${num}.html`;
+  }
+</script>
 
 </body>
 </html>

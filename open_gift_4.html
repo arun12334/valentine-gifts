@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Love Scratch Cards 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body{
+    background: linear-gradient(135deg,#ff5f9e,#ff85b3,#ffc3d9);
+    min-height:100vh;
+    padding:50px 0;
+    font-family: 'Segoe UI', sans-serif;
+    overflow-x:hidden;
+}
+
+/* Falling Hearts */
+.heart{
+    position:fixed;
+    top:-20px;
+    color:#fff;
+    animation: fall linear infinite;
+    z-index:0;
+}
+
+@keyframes fall{
+    0%{ transform:translateY(0) rotate(0deg); opacity:1;}
+    100%{ transform:translateY(100vh) rotate(360deg); opacity:0;}
+}
+
+/* Card */
+.card-container{
+    position:relative;
+    width:100%;
+     min-height:260px;   /* base height */
+    height:auto;        /* grow with content */
+    border-radius:20px;
+    overflow:hidden;
+    backdrop-filter: blur(10px);
+    background: rgba(255,255,255,0.2);
+    box-shadow:0 15px 40px rgba(0,0,0,0.3);
+    transition:transform 0.3s ease;
+}
+
+.card-container:hover{
+    transform: translateY(-8px) scale(1.03);
+}
+
+.hidden-message{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    color:white;
+    font-size:20px;
+    font-weight:700;
+    padding:15px;
+    background: linear-gradient(135deg,#ff4d6d,#ff85a1);
+}
+
+canvas{
+    position:absolute;
+    inset:0;
+}
+
+/* Popup */
+.popup{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.6);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:10;
+}
+
+.popup-box{
+    background:white;
+    padding:25px;
+    border-radius:20px;
+    text-align:center;
+    max-width:300px;
+    animation: pop 0.4s ease;
+}
+
+@keyframes pop{
+    from{transform:scale(0.5);opacity:0;}
+    to{transform:scale(1);opacity:1;}
+}
+
+.popup-box h4{
+    color:#ff4d6d;
+}
+.popup-box button{
+    margin-top:15px;
+    border:none;
+    background:#ff4d6d;
+    color:white;
+    padding:8px 20px;
+    border-radius:20px;
+}
+
+.see-again-btn{
+    background: linear-gradient(135deg,#ff4d6d,#ff85a1);
+    border:none;
+    padding:14px 36px;
+    font-size:18px;
+    font-weight:600;
+    color:white;
+    border-radius:40px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.3);
+    transition:all 0.3s ease;
+}
+
+.see-again-btn:hover{
+    transform: scale(1.08);
+    box-shadow:0 15px 35px rgba(0,0,0,0.4);
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- Hearts -->
+<script>
+for(let i=0;i<40;i++){
+    let h=document.createElement("div");
+    h.className="heart";
+    h.innerHTML="❤";
+    h.style.left=Math.random()*100+"vw";
+    h.style.fontSize=(12+Math.random()*20)+"px";
+    h.style.animationDuration=(4+Math.random()*6)+"s";
+    document.body.appendChild(h);
+}
+</script>
+
+<div class="container position-relative" style="z-index:1;">
+    <h2 class="text-center text-white mb-4">💖 Scratch & Feel the Love 💖</h2>
+
+    <div class="row g-4">
+        <!-- 6 Cards -->
+        <script>
+      const messages = [
+
+`💖
+நீலம் இன்றி நீர் இல்லை நீர் இன்றி மரம் இல்லை மரம் இன்றி காற்று இல்லை காற்று இன்றி உயிர் இல்லை அடி பெண்ணே உன் குரல் இன்றி இசையே இல்லை 😍❤️
+`,
+
+`🌟
+இரவில் வருவதோ நிலா உன்னை பார்ப்பவர்கள் மனதில் உன் முகம் தினம் தினம் வரும் உலா வரும் உலா ✨❤️✨
+`,
+
+`🎉
+பூவுக்கு தான் மனம் என்று தெரியாது தேனுக்கு தான் சுவை என்று தெரியாது நிலவுக்கு தான் ஒளி என்று தெரியாது அதேபோல் உனக்கு உன் அழகின் அருமை தெரியாது உன்னை பார்த்து ரசிக்கும் எனக்கே தெரியும் 🫰💖💞
+`,
+
+`😍
+வானில் பல நட்சத்திரங்கள் இருந்தாலும் நிலா ஒன்றுதான் அதேபோல் பூமியில் பல பெண்கள் இருந்தாலும் எனது நிலா நீ மட்டும் தான் ✨🌝💖
+`,
+
+`💎
+தேனை சுவைக்காத வண்டு போல நீரை சுவைக்காத மீனைப் போல காற்றை சுவைக்காத மரம் போல காத்திருக்கிறேன் உனக்காக உன்னை சுவைப்பதற்காக அல்ல உன்னுடன் வசிப்பதற்காக ✨💌🙃 💖
+`,
+
+`🔥
+என் வாழ்நாள் சத்தம் அனைத்தும் எரிச்சலாக மாறக்கூடும் என் வாழ்க்கையில் உன் குரல் இல்லாவிடில் ✨❤️
+`
+];
+
+
+        messages.forEach(text=>{
+          document.write(`
+          <div class="col-md-4 col-sm-6">
+            <div class="card-container">
+              <div class="hidden-message">${text}</div>
+              <canvas class="scratch"></canvas>
+            </div>
+          </div>
+          `);
+        });
+        </script>
+    </div>
+</div>
+
+<div class="text-center mt-5">
+  <button class="see-again-btn" onclick="reloadPage()">
+    🔁 See Again 💖
+  </button>
+</div>
+
+<!-- Popup -->
+<div class="popup" id="popup">
+  <div class="popup-box">
+    <h4>💘 Surprise 💘</h4>
+    <p id="popupText"></p>
+    <button onclick="closePopup()">Close</button>
+  </div>
+</div>
+<script>
+document.querySelectorAll(".scratch").forEach((canvas, index) => {
+    const ctx = canvas.getContext("2d");
+    const container = canvas.parentElement;
+    const message = container.querySelector(".hidden-message").innerText;
+
+    canvas.width = container.offsetWidth;
+    canvas.height = container.offsetHeight;
+
+    ctx.fillStyle = "#d3d3d3";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    ctx.fillStyle = "#555";
+    ctx.font = "16px Arial";
+    ctx.fillText("Scratch Here ❤", canvas.width/2 - 55, canvas.height/2);
+
+    let isDrawing = false;
+    let scratched = 0;
+    let popupShown = false;
+
+    function getXY(e){
+        const rect = canvas.getBoundingClientRect();
+        return {
+            x:(e.touches ? e.touches[0].clientX : e.clientX) - rect.left,
+            y:(e.touches ? e.touches[0].clientY : e.clientY) - rect.top
+        };
+    }
+
+    function scratch(e){
+        if(!isDrawing || popupShown) return;
+        e.preventDefault();
+
+        const {x,y} = getXY(e);
+        ctx.globalCompositeOperation = "destination-out";
+        ctx.beginPath();
+        ctx.arc(x,y,20,0,Math.PI*2);
+        ctx.fill();
+
+        scratched++;
+
+        if(scratched > 120 && !popupShown){
+            popupShown = true;
+            document.getElementById("popupText").innerText = message;
+            document.getElementById("popup").style.display = "flex";
+        }
+    }
+
+    canvas.addEventListener("mousedown",()=> isDrawing = true);
+    canvas.addEventListener("mouseup",()=> isDrawing = false);
+    canvas.addEventListener("mousemove", scratch);
+
+    canvas.addEventListener("touchstart",()=> isDrawing = true);
+    canvas.addEventListener("touchend",()=> isDrawing = false);
+    canvas.addEventListener("touchmove", scratch);
+});
+
+/* ✅ GLOBAL FUNCTIONS */
+function reloadPage(){
+    window.location.reload(true);
+}
+
+function closePopup(){
+    document.getElementById("popup").style.display = "none";
+}
+</script>
+
+
+
+</body>
+</html>

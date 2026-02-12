@@ -32,7 +32,7 @@
 
 
 body.bg-start {
-     background: url(assets/yellow.jpg);
+     background: url(assets/yellow2.jpg);
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -44,14 +44,14 @@ body.bg-start {
     }
 
 body.bg-question {
-      background: url(assets/yellow.jpg);
+      background: url(assets/yellow4.jpg);
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
 }
 
-body.bg-result {
-     background: url(assets/yellow.jpg);
+body.bg-resultScreen {
+     background: url(assets/yellow3.jpg);
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -376,6 +376,10 @@ padding: 20px;
   😢 Wrong da💔
 </div>
 
+<audio id="bgmSong" loop>
+  <source src="assets/RemoBgm.mp3" type="audio/mpeg">
+</audio>
+
 
   <!-- PC CONTENT -->
   <div id="pcContent">
@@ -419,7 +423,7 @@ padding: 20px;
 
   <!-- Screen 2 -->
   <div id="questionScreen" class="hidden glass_card">
-   <h4>I LOVE YOU ❤️<br>நான் உன்னை காதலிக்கிறேன்…<br>நீயும் என்னை காதலிக்கிறாயா?</h4>
+   <h4>HI UMA 💖 I LOVE YOU ❤️<br>நான் உன்னை காதலிக்கிறேன்…<br>நீயும் என்னை காதலிக்கிறாயா?</h4>
 
     <h6>If you Feeling Shy Click No <h6>
 
@@ -433,6 +437,8 @@ padding: 20px;
   <!-- Screen 3 -->
 <div id="resultScreen" class="hidden glass_card">
   <h2>💖 You Said YES! 💖</h2>
+  <h4>💖 Good Choice!💖</h4>
+
   <h4 class="mt-2">Forever & Always ❤️♾️</h4>
   <img src="assets/frd.gif">
   <p class="mt-3">
@@ -463,14 +469,16 @@ padding: 20px;
 
 
    <div class="modal-header border-0">
-  <h5 class="modal-title">💘 A Little Valentine Thought</h5>
+  <h5 class="modal-title">💘 Oii Cutepie, happy valentine's day 💘💌 </h5>
 </div>
 
 <div class="modal-body">
   <p>
-    🌹 Valentine’s Day isn’t just about roses or chocolates,  
-    it’s about the one who makes your heart smile. 💖  
-    If love had a face, it would look a lot like you. ✨🥰
+    🌹 Oru Ponnu kitta Feb 14 ku first time propose panre ah epdii 
+
+Unna find panna 27 years achu ithukku mela wait panna muttiya thu 
+
+Na unna love pantra 😍 I love you Uma 💘💖 ✨🥰
   </p>
 </div>
 
@@ -489,7 +497,7 @@ padding: 20px;
     <div class="modal-content glass_card text-white">
       
       <div class="modal-header border-0">
-        <h5 class="modal-title">💖 இன்னும் ஒரு விஷயம்</h5>
+        <h5 class="modal-title">💖💍 </h5>
       </div>
 
       <div class="modal-body">
@@ -528,6 +536,21 @@ padding: 20px;
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <script>
+
+  var bgm = document.getElementById("bgmSong");
+
+// When popupOne opens
+var popupOne = document.getElementById('popupOne');
+popupOne.addEventListener('shown.bs.modal', function () {
+    bgm.volume = 0.5;   // soft romantic volume
+    bgm.play();
+});
+
+// OPTIONAL: stop music when popup closes
+popupOne.addEventListener('hidden.bs.modal', function () {
+    bgm.pause();
+    bgm.currentTime = 0;
+});
  
 function start() {
   const overlay = document.getElementById('letterOverlay');
@@ -578,6 +601,8 @@ function goToQuestion() {
     const result = document.getElementById('resultScreen');
     result.classList.remove('hidden');
     result.classList.add('celebrate');
+
+    setBodyBg('bg-resultScreen');
 
     // 🎉 CONFETTI BLAST
     confetti({
