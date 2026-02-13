@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>I Love You Uma❤️</title>
+<title>I Love You Uma ❤️</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -26,11 +26,10 @@ body{
     font-weight:900;
     animation: pop 1s ease forwards;
 }
-
 @keyframes pop{
-    0%{ transform:scale(0); opacity:0; }
-    60%{ transform:scale(1.3); }
-    100%{ transform:scale(1); opacity:1; }
+    0%{transform:scale(0);opacity:0;}
+    60%{transform:scale(1.3);}
+    100%{transform:scale(1);opacity:1;}
 }
 
 /* Shake */
@@ -38,11 +37,11 @@ body{
     animation: shakeScreen 0.5s;
 }
 @keyframes shakeScreen{
-    0%{ transform:translate(0); }
-    25%{ transform:translate(10px,-10px); }
-    50%{ transform:translate(-10px,10px); }
-    75%{ transform:translate(10px,10px); }
-    100%{ transform:translate(0); }
+    0%{transform:translate(0);}
+    25%{transform:translate(10px,-10px);}
+    50%{transform:translate(-10px,10px);}
+    75%{transform:translate(10px,10px);}
+    100%{transform:translate(0);}
 }
 
 /* Boom */
@@ -53,59 +52,59 @@ body{
     animation: boomAnim 0.8s ease forwards;
 }
 @keyframes boomAnim{
-    0%{ transform:scale(0); opacity:0; }
-    50%{ transform:scale(1.5); }
-    100%{ transform:scale(1); opacity:1; }
+    0%{transform:scale(0);opacity:0;}
+    50%{transform:scale(1.5);}
+    100%{transform:scale(1);opacity:1;}
 }
 
-/* Reveal */
-.reveal{
-    font-size:42px;
-    animation: zoomIn 1s ease forwards;
-    line-height:1.2;
+/* Wedding Card */
+.card-container{
+    text-align:center;
+    max-width: 90vw;
+    max-height: 85vh;
+    margin: auto;
+    animation: softZoom 1.2s ease-out forwards;
 }
-@keyframes zoomIn{
-    0%{ transform:scale(0); opacity:0; }
-    100%{ transform:scale(1); opacity:1; }
+@keyframes softZoom{
+    0%{
+        transform: scale(0.85);
+        opacity: 0;
+    }
+    100%{
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+.card-container img{
+    width: 100%;
+    max-width: 700px;
+    max-height: 75vh;
+    object-fit: contain;
+    border-radius:20px;
+    box-shadow:0 0 30px rgba(255,105,180,0.6);
+    animation: float 4s ease-in-out infinite;
+}
+@keyframes float{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-15px);}
 }
 
-/* Proposal buttons */
-.proposal-btns{
-    margin-top:30px;
-    display:flex;
-    gap:20px;
-    justify-content:center;
-    animation: fadeUp 1s ease forwards;
-    position:relative;
-}
-
-@keyframes fadeUp{
-    from{ transform:translateY(20px); opacity:0; }
-    to{ transform:translateY(0); opacity:1; }
-}
-
-/* YES mail button style */
-.love-mail-btn-unique{
-    background:linear-gradient(135deg,#ff4d6d,#ff85a1);
-    border:none;
-    padding:12px 30px;
+/* Hearts Falling */
+.heart{
+    position:fixed;
+    top:-10px;
+    color:#ff4d6d;
     font-size:20px;
-    border-radius:30px;
-    color:white;
-    cursor:pointer;
+    animation: fall linear forwards;
+}
+@keyframes fall{
+    to{
+        transform:translateY(110vh);
+        opacity:0;
+    }
 }
 
-/* NO button */
-.no-btn{
-    background:#444;
-    border:none;
-    padding:12px 30px;
-    font-size:20px;
-    border-radius:30px;
-    color:white;
-    cursor:pointer;
-}
-
+/* Start Button */
 .start-btn{
     position:absolute;
     bottom:50px;
@@ -126,14 +125,18 @@ body{
     <source src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3" type="audio/mpeg">
 </audio>
 
+<audio id="loveSong">
+    <source src="assets/love.mp3" type="audio/mpeg">
+</audio>
+
 <script>
 let count = 5;
 let display = document.getElementById("display");
-let sound = document.getElementById("boomSound");
+let boomSound = document.getElementById("boomSound");
+let loveSong = document.getElementById("loveSong");
 
 function startCountdown(){
     document.querySelector(".start-btn").style.display="none";
-
     let interval = setInterval(()=>{
         count--;
         if(count > 0){
@@ -150,37 +153,39 @@ function blast(){
     document.body.classList.add("shake");
     display.className="boom";
     display.innerText="BOOM 💥";
-    sound.play();
+    boomSound.play();
 
     setTimeout(()=>{
         document.body.classList.remove("shake");
-        display.className="reveal";
-
-        display.innerHTML = `
-        💍 Will You Marry Me? 💖
-        <div class="proposal-btns">
-
-          <button class="love-mail-btn-unique"
-          onclick="window.location.href='mailto:eron.arunaakash@gmail.com?subject=I%20Opened%20Your%20Surprise%20💕&body=Hi%20❤️,%0A%0AI%20just%20opened%20your%20beautiful%20surprise%20and%20I%20loved%20it%20so%20much!%20💕%0A%0ALove%20you%20💖'">
-          YES 💘
-          </button>
-
-          <button class="no-btn"
-            onmouseenter="moveNo(this)"
-            ontouchstart="moveNo(this)">
-            NO 🙈
-          </button>
-
-        </div>
-        `;
+        showWeddingCard();
     },1200);
 }
 
-/* NO button escape */
-function moveNo(btn){
-    btn.style.position="fixed";
-    btn.style.left = Math.random() * (window.innerWidth - btn.offsetWidth) + "px";
-    btn.style.top  = Math.random() * (window.innerHeight - btn.offsetHeight) + "px";
+function showWeddingCard(){
+    display.className="";
+    display.innerHTML = `
+        <div class="card-container">
+            <img src="assets/wedding.png" alt="Wedding Card">
+            <h2 class="mt-4">💖 Forever Begins Here 💖</h2>
+        </div>
+    `;
+    loveSong.play();
+    startHearts();
+}
+
+/* Heart Falling Effect */
+function startHearts(){
+    setInterval(()=>{
+        let heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerHTML = "❤️";
+        heart.style.left = Math.random()*100 + "vw";
+        heart.style.fontSize = (15 + Math.random()*25) + "px";
+        heart.style.animationDuration = (3 + Math.random()*3) + "s";
+        document.body.appendChild(heart);
+
+        setTimeout(()=>heart.remove(),6000);
+    },300);
 }
 </script>
 

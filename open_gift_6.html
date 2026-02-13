@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>I Love You Uma❤️</title>
+<title>I Love You Uma ❤️</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- Bootstrap -->
@@ -32,16 +32,9 @@ body{
     animation:rippleEffect 1.2s ease-out forwards;
 }
 
-/* Ripple Animation */
 @keyframes rippleEffect{
-    0%{
-        transform:scale(0);
-        opacity:0.8;
-    }
-    100%{
-        transform:scale(12);
-        opacity:0;
-    }
+    0%{transform:scale(0);opacity:0.8;}
+    100%{transform:scale(12);opacity:0;}
 }
 
 /* Glow Effect */
@@ -85,28 +78,35 @@ body{
     💖 You Touched My Heart 💖
 </div>
 
+<!-- Touch Sound -->
+<audio id="touchSound" src="assets/touch.mp3" preload="auto"></audio>
 
 <script>
 const message = document.getElementById("message");
+const touchSound = document.getElementById("touchSound");
 
 document.body.addEventListener("click", function(e){
 
-    const ripple = document.createElement("span");
-    ripple.classList.add("ripple");
+    // Play sound
+    touchSound.currentTime = 0;
+    touchSound.play().catch(()=>{});
 
+    // Ripple
+    const ripple = document.createElement("span");
+    ripple.className = "ripple";
     ripple.style.width = ripple.style.height = "100px";
     ripple.style.left = e.clientX - 50 + "px";
     ripple.style.top = e.clientY - 50 + "px";
-
     document.body.appendChild(ripple);
 
+    // Glow
     const glow = document.createElement("span");
-    glow.classList.add("glow");
+    glow.className = "glow";
     glow.style.left = e.clientX - 100 + "px";
     glow.style.top = e.clientY - 100 + "px";
     document.body.appendChild(glow);
 
-    // Show message from ripple center
+    // Message position
     message.style.left = e.clientX - 200 + "px";
     message.style.top = e.clientY - 50 + "px";
 
@@ -114,7 +114,7 @@ document.body.addEventListener("click", function(e){
         message.classList.add("show");
     },300);
 
-    // Remove ripple after animation
+    // Cleanup
     setTimeout(()=>{
         ripple.remove();
         glow.remove();
